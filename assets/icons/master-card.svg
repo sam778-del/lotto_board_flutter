@@ -1,0 +1,10 @@
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+	<title>icons8-credit-card-50</title>
+	<defs>
+		<image  width="46" height="32" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAgBAMAAACfnVd0AAAAAXNSR0IB2cksfwAAAC1QTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwaAoPgAAAA90Uk5TAE2/9P++TIaEvfPy8UuDGza/TgAAAGBJREFUeJxjYBAycUEHzmEMDOwYoiDQwCCCVdyNQQWruCfDEqzi3gxYhV1ccIszYAN0ECfVnbjFHaCGshApTi17h4T4EqzCPgwhWMU9GVKwivsycGAVf8DAkIlpg9dcBgBsKqQj/tBwEQAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+		tspan { white-space:pre }
+	</style>
+	<use id="Background" href="#img1" x="2" y="9" />
+</svg>

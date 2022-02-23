@@ -1,0 +1,10 @@
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30">
+	<title>icons8-combo-chart-30</title>
+	<defs>
+		<image  width="22" height="22" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAMAAADzapwJAAAAAXNSR0IB2cksfwAAAFpQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAi0leUQAAAB50Uk5TAEvk40n/4j7+BGP58kgIiNpeA4031fzl22LWPcXD6wiBOwAAAH9JREFUeJzNjlkOhDAMQ8MUF8pW9p37X3NoKUxGuQD+iKwnJw6RUPRRsaSkAC0TSfrDLmG8y3IUuvS2sjhVN4baDujaK9oPGPU0A/NUIF/CVT1i7YlMU58r6fZcha28Neq/7H4tVq5sB45guVx9sD4hMbMSXzsCs8kTbArwMvwFkN4HnnvXqa8AAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+		tspan { white-space:pre }
+	</style>
+	<use id="Background" href="#img1" x="4" y="4" />
+</svg>
