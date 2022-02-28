@@ -5,7 +5,6 @@ import 'package:lotto_board/screen/dashboard/dashboard_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lotto_board/screen/components/navigation_drawer_widget.dart';
-import 'package:lotto_board/provider/provider_setup.dart';
 import 'package:lotto_board/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -15,18 +14,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     //DeviceOrientation.portraitDown,
   ]);
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: providers,
-      child: StartApp(),
-    );
-  }
+  runApp(StartApp());
 }
 
 class StartApp extends StatelessWidget {

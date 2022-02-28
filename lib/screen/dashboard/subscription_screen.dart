@@ -2,13 +2,18 @@ import 'package:lotto_board/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:lotto_board/constant.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sizer/sizer.dart';
 import '../components/navigation_drawer_widget.dart';
 import 'package:lotto_board/controllers/MenuController.dart';
 import 'package:provider/provider.dart';
 import 'package:pricing_cards/pricing_cards.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
+import 'package:lotto_board/screen/components/pricing.dart';
+import 'dart:async';
+import 'package:lotto_board/screen/dashboard/gateway.dart';
+import 'package:lotto_board/screen/components/shimmer_ghana.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   @override
@@ -16,9 +21,13 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class InitState extends State<SubscriptionScreen> {
+  final PricingController pricingData = Get.put(PricingController());
+
+  late Timer timer;
 
   @override
   void initState() {
+    pricingData.fetchPricing();
     super.initState();
   }
 
@@ -50,85 +59,66 @@ class InitState extends State<SubscriptionScreen> {
     );
   }
 
-  initWidget() {
-    return Sizer(
-     builder: (context, orientation, deviceType) {
-      return SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(defaultPadding),
-          child: Column(
-            children: [
-              SizedBox(height: defaultPadding),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
+  Widget initWidget() {
+    return SingleChildScrollView(
+      child: Obx(() {
+        if(pricingData.isLoading == true)
+          return CarouselLoading();
+        else
+        return Sizer(
+          builder: (context, orientation, deviceType) {
+            return SafeArea(
+              child: new Center(
+                child: new RefreshIndicator(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(defaultPadding),
                     child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 30),
-                          Container(
-                            width: 80.h,
-                            child: Column(
-                              children: [
-                                PricingCards(
-                                  pricingCards: [
-                                    PricingCard(
-                                      title: 'Monthly',
-                                      price: '\$ 9.99',
-                                      subPriceText: '\/mo',
-                                      billedText: 'Billed monthly',
-                                      onPress: () {
-                                        // make your business
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 30),
-                                PricingCards(
-                                  pricingCards: [
-                                    PricingCard(
-                                      title: 'Monthly',
-                                      price: '\$ 59.99',
-                                      subPriceText: '\/mo',
-                                      billedText: 'Billed anually',
-                                      mainPricing: true,
-                                      mainPricingHighlightText: 'Save money',
-                                      onPress: () {
-                                        // make your business
-                                      },
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 30),
-                                PricingCards(
-                                  pricingCards: [
-                                    PricingCard(
-                                      title: 'Monthly',
-                                      price: '\$ 9.99',
-                                      subPriceText: '\/mo',
-                                      billedText: 'Billed monthly',
-                                      onPress: () {
-                                        // make your business
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ]
-                      )
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 100.h,
+                        child: Column(
+                          children: getList(),
+                        ),
+                      ),
                     )
-                  )
-                ],
+                  ),
+                  onRefresh: _refreshAds
+                )
               )
-            ],
-          ),
-        ),
-      );
-     }
+            );
+          }
+          );
+      }),
     );
+  }
+
+  List<Widget> getList() {
+    List<Widget> childs = pricingData.PricingData
+        .map((e) => Row(
+          mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+          crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+          children: <Widget>[
+                PricingCards(
+                  pricingCards: [
+                    PricingCard(
+                      title: '${e["name"]}',
+                      price: '\₦ ${e["price"]}',
+                      subPriceText: '\/${e["duration"].substring(0,3)}',
+                      billedText: 'Billed ${e["duration"]}',
+                      onPress: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => GatewayScreen(id: "${e["id"]}", duration: "${e["duration"]}", price: e["price"]),
+                        ));
+                      },
+                    ),
+                  ],
+                ),
+            ]))
+        .toList();
+    return childs;
+  }
+
+  Future<Null> _refreshAds() async{
+   pricingData.fetchPricing();
   }
 }

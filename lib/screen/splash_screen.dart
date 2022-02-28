@@ -11,7 +11,7 @@ class SplashScreen extends StatefulWidget {
 
   _checkUser() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String _token = prefs.get("token");
+      Object? _token = prefs.get("token");
       return _token;
   }
 
@@ -35,7 +35,7 @@ class StartState extends State<SplashScreen> {
 
   _checkUser() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String _token = prefs.get("token");
+      Object? _token = prefs.get("token");
       return _token;
   }
 

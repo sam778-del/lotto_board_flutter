@@ -10,7 +10,7 @@ class PremierBoardService {
   static Future<dynamic> fetchPremierBoardData() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.get("token");
+      Object? token = prefs.get("token");
       var response = await client.get(Uri.parse(strings.premierScreen += "?token=${token}"),
         headers: {
           "Accept": "application/json",

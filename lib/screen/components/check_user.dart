@@ -6,6 +6,7 @@ class UserDataController extends GetxController{
   static var UserEmail = '';
   static var UserPlan  = '';
   static var ProChat   = '';
+  static var UserId = '';
 
   @override
   void onInit() {
@@ -21,6 +22,7 @@ class UserDataController extends GetxController{
         UserEmail = _data["email"];
         UserPlan  = _data["plan_id"];
         ProChat   = _data["pro_chat"];
+        UserId = _data["id"];
       }
     }finally{
       var _data = await checkUser.getUser();

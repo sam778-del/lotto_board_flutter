@@ -1,29 +1,28 @@
-import 'dart:convert';
-import 'package:lotto_board/controllers/User.dart';
 import 'package:lotto_board/controllers/value.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Strings strings = Strings();
 
-class checkUser{
+class PricingService {
   static var client = http.Client();
-  static Future<dynamic> getUser() async {
+  static Future<dynamic> fetchPricingData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Object? token = prefs.get("token");
     try{
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Object? token = prefs.get("token");
-      var response = await client.get(Uri.parse(strings.UserById += "?token=${token}"),
+      var response = await client.get(Uri.parse(strings.getPlan += "?token=${token}"),
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer $token"
         },
       );
+      print(json.decode(response.body));
       if(response.statusCode == 200){
         return json.decode(response.body);
       }
       return null;
     } catch(e){
-      Exception(e);
       return null;
     }
   }

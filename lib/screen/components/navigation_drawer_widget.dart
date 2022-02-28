@@ -41,15 +41,17 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
     super.dispose();
   }
 
-  ClassificationChart() async{
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ClassificationDialog(
-          mdFileName: 'classification_chart.jpeg',
-        );
-      },
-    );
+  ClassificationChart() {
+    Timer.run(() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ClassificationDialog(
+            mdFileName: 'classification_chart.jpeg',
+          );
+        },
+      );
+    });
   }
 
 
@@ -139,7 +141,10 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
                   buildMenuItem(
                     text: 'Classification Chart',
                     icon: Icons.update,
-                    onClicked: () => selectedItem(context, 3),
+                    onClicked: () {
+                      Navigator.of(context).pop();
+                      ClassificationChart();
+                    },
                   ),
                   const SizedBox(height: 24),
                   const SizedBox(height: 24),
@@ -266,11 +271,6 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
             builder: (context) => PremierboardScreen(title: ''),
           ));
         break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ClassificationChart(),
-        ));
-        break;
       case 4:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ChatScreen(),
@@ -283,6 +283,11 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ProChatScreen(),
           ));
+        break;
+      case 6:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SubscriptionScreen(),
+        ));
         break;
       case 8:
         _logOut();

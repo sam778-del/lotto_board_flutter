@@ -32,7 +32,7 @@ class Auth {
 
   Future<User> me () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     response = await http.get(Uri.parse(strings.meUrl),
         headers: {
           "Accept": "application/json",
@@ -52,7 +52,7 @@ class Auth {
 
   Future<dynamic> logout () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     response = await http.post(Uri.parse(strings.logoutUrl),
       headers: {
         "Accept": "application/json",

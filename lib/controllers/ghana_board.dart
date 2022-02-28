@@ -10,7 +10,7 @@ class GhanaBoardService {
   static Future<dynamic> fetchGhanaBoardData() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.get("token");
+      Object? token = prefs.get("token");
       var response = await client.get(Uri.parse(strings.ghanaScreen += "?token=${token}"),
         headers: {
           "Accept": "application/json",

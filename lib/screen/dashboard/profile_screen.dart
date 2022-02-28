@@ -2,7 +2,6 @@ import 'package:lotto_board/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:lotto_board/constant.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sizer/sizer.dart';
 import 'package:lotto_board/controllers/MenuController.dart';

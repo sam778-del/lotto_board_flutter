@@ -13,7 +13,7 @@ class Password {
 
   Future<dynamic>changePassword() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     response = await http.post(Uri.parse(strings.changePassword), 
     headers: {
       "Accept": "application/json",

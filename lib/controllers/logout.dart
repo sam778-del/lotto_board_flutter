@@ -14,7 +14,7 @@ class Logout {
 
     Future<dynamic> logoutUser () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     final response = await http.get(Uri.parse(strings.Logout += "?token=${token}"),
       headers: {
         "Accept": "application/json",

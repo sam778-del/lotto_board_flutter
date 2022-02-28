@@ -20,7 +20,7 @@ class User {
 
   Future<dynamic>createUser () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     var url = Uri.parse(strings.createUserUrl);
     response = await http.post(url,
       headers: {
@@ -42,7 +42,7 @@ class User {
 
   Future<dynamic>updateUser (int id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     var url = Uri.parse("${strings.updateUserUrl}/$id");
     response = await http.put(url,
         headers: {
@@ -63,7 +63,7 @@ class User {
 
   Future<dynamic>deleteUser (int id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     response = await http.delete(Uri.parse("${strings.createUserUrl}/$id"),
         headers: {
           "Accept": "application/json",

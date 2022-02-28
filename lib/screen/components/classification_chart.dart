@@ -28,9 +28,12 @@ class ClassificationDialog extends StatelessWidget {
               builder: (context, shot) {
                 if (loadedData == false) {
                   return Container(
+                    width: MediaQuery.of(context).size.width / 0.5,
+                    height: MediaQuery.of(context).size.height / 1.5,
                     child: Image.asset(
                       'assets/$mdFileName',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
+                      
                     )
                   );
                 }

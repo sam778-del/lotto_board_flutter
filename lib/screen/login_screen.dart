@@ -14,7 +14,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:edge_alert/edge_alert.dart';
-import 'package:lotto_board/controllers/connection.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:sizer/sizer.dart';
 
@@ -44,7 +43,6 @@ class InitState extends State<LoginScreen> {
 
   Strings strings = Strings();
   Auth auth = Auth();
-  MyConnectivity checkConnection = MyConnectivity();
 
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

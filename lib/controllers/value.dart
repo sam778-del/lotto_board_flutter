@@ -12,4 +12,5 @@ class Strings {
   String ghanaScreen = "$mainUrl/api/ghana-board/";
   String premierScreen = "$mainUrl/api/premier-board/";
   String Logout = "$mainUrl/api/logout/";
+  String getPlan = "$mainUrl/api/plan";
 }

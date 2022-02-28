@@ -9,7 +9,7 @@ class DashboardService {
   static var client = http.Client();
   static Future<dynamic> fetchCarouselData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.get("token");
+    Object? token = prefs.get("token");
     try{
       var response = await client.get(Uri.parse(strings.checkAds += "?token=${token}"),
         headers: {
