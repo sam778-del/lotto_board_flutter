@@ -19,7 +19,7 @@ class PricingController extends GetxController{
         PricingData = _data;
       }
     }finally{
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(Duration(seconds: 1), () {
         isLoading(false);
       });
     }

@@ -28,6 +28,7 @@ class _MyHomePageState extends State<GhanaboardScreen> {
   HDTRefreshController _hdtRefreshController = HDTRefreshController();
   final GhanaController ghanaBoardData = Get.put(GhanaController());
 
+
   late Timer timer;
 
   @override
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<GhanaboardScreen> {
                   headerWidgets: _getTitleWidget(),
                   leftSideItemBuilder: _generateFirstColumnRow,
                   rightSideItemBuilder: _generateRightHandSideColumnRow,
-                  itemCount: user.userInfo.length,
+                  itemCount: ghanaBoardData.GhanaBoardData.length,
                   rowSeparatorWidget: const Divider(
                     color: Colors.black54,
                     height: 1.0,

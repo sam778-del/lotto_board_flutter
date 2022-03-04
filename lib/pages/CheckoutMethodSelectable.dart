@@ -3,6 +3,9 @@ import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:lotto_board/services/initiliaze_paystack.dart';
 import 'package:lotto_board/utils/hexToColor.dart';
 import 'package:lotto_board/widgets/button.dart';
+import '../controllers/submit_order.dart';
+import '../screen/dashboard/subscription_screen.dart';
+import 'package:lotto_board/screen/components/check_user.dart';
 
 class CheckoutMethodSelectable extends StatefulWidget {
   const CheckoutMethodSelectable({Key? key, required this.id, required this.duration, required this.price, required this.user, required this.email}) : super(key: key);
@@ -19,6 +22,7 @@ class CheckoutMethodSelectable extends StatefulWidget {
 class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
   bool isGeneratingCode = false;
   final plugin = PaystackPlugin();
+  SubmitOrderService order = SubmitOrderService();
   @override
   void initState() {
     plugin.initialize(
@@ -33,6 +37,7 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
       child: Container(
         height: 350.0,
         width: MediaQuery.of(context).size.width,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -89,6 +94,7 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
       child: Container(
         height: 350.0,
         width: MediaQuery.of(context).size.width,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -137,7 +143,7 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
       isGeneratingCode = !isGeneratingCode;
     });
 
-    Map accessCode = await createAccessCode("sk_test_99046f1f28c1a28847e7862a0b986c8f3ca35f4a");
+    Map accessCode = await createAccessCode("sk_test_99046f1f28c1a28847e7862a0b986c8f3ca35f4a", widget.price * 100, widget.email);
     setState(() {
       isGeneratingCode = !isGeneratingCode;
     });
@@ -148,12 +154,11 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
       ..email = "${widget.email}";
     CheckoutResponse response = await plugin.checkout(
       context,
-      method:
-          CheckoutMethod.selectable, // Defaults to CheckoutMethod.selectable
+      method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
       charge: charge,
     );
     if (response.status == true) {
-      _showDialog();
+      handleOnSuccess(response);
     } else {
       _showErrorDialog();
     }
@@ -166,6 +171,7 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
         title: Text(
           "Pay With Paystack",
         ),
+        backgroundColor: Color(0xFF363f93),
         centerTitle: true,
         elevation: 0.0,
       ),
@@ -174,7 +180,7 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
           child: Center(
             child: Button(
               child: Text(
-                isGeneratingCode ? "Processing.." : "Charge",
+                isGeneratingCode ? "Processing.." : "Make Payment",
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -182,5 +188,22 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
             ),
           )),
     );
+  }
+
+  handleOnSuccess(transaction) async{
+    setState(() {
+      order.id = widget.id;
+      order.user = widget.email;
+      order.card_number = 'NONE';
+      order.card_exp_month = 'NONE';
+      order.card_exp_year = 'NONE';
+      order.status = 'success';
+    });
+    await order.submitOrderData();
+    UserDataController.fetchDOData();
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => SubscriptionScreen(),
+    ));
+    _showDialog();
   }
 }

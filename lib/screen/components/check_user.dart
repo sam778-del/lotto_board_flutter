@@ -25,8 +25,6 @@ class UserDataController extends GetxController{
         UserId = _data["id"];
       }
     }finally{
-      var _data = await checkUser.getUser();
-      print(_data);
       print('data fetch done');
     }
   }

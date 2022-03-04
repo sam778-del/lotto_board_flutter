@@ -5,6 +5,7 @@ import 'package:lotto_board/constant.dart';
 import 'package:sizer/sizer.dart';
 import 'package:lotto_board/screen/components/check_user.dart';
 import 'package:lotto_board/pages/CheckoutMethodSelectable.dart';
+import 'package:lotto_board/screen/components/check_user.dart';
 
 class GatewayScreen extends StatefulWidget {
   const GatewayScreen({Key? key, required this.id, required this.duration, required this.price}) : super(key: key);
@@ -29,7 +30,6 @@ class InitState extends State<GatewayScreen>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      drawer: NavigationDrawerWiget(),
       appBar: AppBar(
         title: Text("Payment Method"),
         backgroundColor: Color(0xFF363f93),
@@ -74,7 +74,7 @@ class InitState extends State<GatewayScreen>{
                               ),
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => CheckoutMethodSelectable(id: "${widget.id}", duration: "${widget.duration}", price: widget.price, ),
+                                  builder: (context) => CheckoutMethodSelectable(id: "${widget.id}", duration: "${widget.duration}", price: widget.price, user: "${UserDataController.UserEmail}", email: "${UserDataController.UserEmail}",),
                                 ));
                               },
                             )

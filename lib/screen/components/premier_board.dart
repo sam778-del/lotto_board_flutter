@@ -19,7 +19,7 @@ class PremierController extends GetxController{
         PremierBoardData = _data;
       }
     }finally{
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(Duration(seconds: 3), () {
         isLoading(false);
       });
       print('data fetch done');

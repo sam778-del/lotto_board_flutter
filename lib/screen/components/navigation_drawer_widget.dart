@@ -16,6 +16,7 @@ import 'dart:async';
 import 'package:get/instance_manager.dart';
 import 'package:lotto_board/screen/components/check_user.dart';
 import 'package:lotto_board/screen/components/classification_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationDrawerWiget extends StatefulWidget {
   const NavigationDrawerWiget({Key? key}) : super(key: key);
@@ -32,13 +33,24 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
   void initState() {
     UserDataController.fetchDOData();
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => UserDataController.fetchDOData());
+    timer = Timer.periodic(Duration(seconds: 3), (Timer t) => UserDataController.fetchDOData());
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => checkLoggedInUser());
   }
 
   @override
   void dispose() {
     timer.cancel();
     super.dispose();
+  }
+
+  checkLoggedInUser() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get("token");
+    if(token == null){
+      _completeLogin();
+    }else{
+      print("token still intact");
+    }
   }
 
   ClassificationChart() {
@@ -247,6 +259,16 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
     );
   }
 
+  void _showErrorDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return errorDialog(context);
+      },
+    );
+  }
+
   void selectedItem(BuildContext context, int index) {
     Navigator.of(context).pop();
     switch (index) {
@@ -299,14 +321,57 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
   Strings strings = Strings();
   Logout logout = Logout();
   _logOut() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     await logout.logoutUser();
+    await prefs.remove('token');
   }
 
   _completeLogin() {
-    Navigator.pushReplacement<void, void>(
+    Navigator.pushAndRemoveUntil<void>(
       context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const LoginScreen(),
+      MaterialPageRoute<void>(builder: (BuildContext context) => const LoginScreen()),
+      ModalRoute.withName('/'),
+    );
+  }
+
+
+  Dialog errorDialog(context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0)), //this right here
+      child: Container(
+        height: 350.0,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.cancel,
+                color: Colors.red,
+                size: 90,
+              ),
+              SizedBox(height: 15),
+              Text(
+                'Token Expired',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 15),
+              Text(
+                "Please login again to access your account",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -8,13 +8,6 @@ void main() {
 }
 
 class SplashScreen extends StatefulWidget {
-
-  _checkUser() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Object? _token = prefs.get("token");
-      return _token;
-  }
-
   @override
   State<StatefulWidget> createState() => StartState();
 }
@@ -33,25 +26,10 @@ class StartState extends State<SplashScreen> {
     return new Timer(duration, route);
   }
 
-  _checkUser() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Object? _token = prefs.get("token");
-      return _token;
-  }
-
   route() {
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) => LoginScreen()
       ));
-    // if(_checkUser() != ''){
-    //   Navigator.pushReplacement(context, MaterialPageRoute(
-    //     builder: (context) => MainApp()
-    //   ));
-    // }else{
-    //   Navigator.pushReplacement(context, MaterialPageRoute(
-    //     builder: (context) => LoginScreen()
-    //   ));
-    // }
   }
 
   @override

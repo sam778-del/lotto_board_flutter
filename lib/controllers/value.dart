@@ -13,4 +13,6 @@ class Strings {
   String premierScreen = "$mainUrl/api/premier-board/";
   String Logout = "$mainUrl/api/logout/";
   String getPlan = "$mainUrl/api/plan";
+  String submitOrder = "$mainUrl/api/submitOrder";
+  String activePlan = "$mainUrl/api/get-plan";
 }

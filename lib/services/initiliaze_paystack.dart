@@ -2,19 +2,18 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-createAccessCode(skTest) async {
+createAccessCode(skTest, amount, email) async {
   // skTest -> Secret key
   Map<String, String> headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Authorization': 'Bearer $skTest'
   };
-  Map data = {"amount": 600, "email": "johnsonoye34@gmail.com"};
+  Map data = {"amount": amount, "email": email};
   String payload = json.encode(data);
   http.Response response = await http.post(Uri.parse('https://api.paystack.co/transaction/initialize'),
       headers: headers,
       body: payload
   );
-  print(jsonDecode(response.body));
   return jsonDecode(response.body);
 }
