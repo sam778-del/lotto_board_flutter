@@ -20,8 +20,7 @@ class GhanaController extends GetxController{
         GhanaBoardData = _data;
       }
     }finally{
-      Future.delayed(Duration(seconds: 3), () {
-        totalCount = GhanaBoardData.length + 1;
+      Future.delayed(Duration(seconds: 5), () {
         isLoading(false);
         print('data fetch done');
       });

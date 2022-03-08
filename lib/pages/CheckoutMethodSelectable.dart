@@ -6,6 +6,7 @@ import 'package:lotto_board/widgets/button.dart';
 import '../controllers/submit_order.dart';
 import '../screen/dashboard/subscription_screen.dart';
 import 'package:lotto_board/screen/components/check_user.dart';
+import 'package:get/instance_manager.dart';
 
 class CheckoutMethodSelectable extends StatefulWidget {
   const CheckoutMethodSelectable({Key? key, required this.id, required this.duration, required this.price, required this.user, required this.email}) : super(key: key);
@@ -20,6 +21,7 @@ class CheckoutMethodSelectable extends StatefulWidget {
 
 // Pay public key
 class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
+  final UserDataController userDataController = Get.put(UserDataController());
   bool isGeneratingCode = false;
   final plugin = PaystackPlugin();
   SubmitOrderService order = SubmitOrderService();
@@ -200,7 +202,7 @@ class _CheckoutMethodSelectableState extends State<CheckoutMethodSelectable> {
       order.status = 'success';
     });
     await order.submitOrderData();
-    UserDataController.fetchDOData();
+    userDataController.fetchDOData();
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => SubscriptionScreen(),
     ));

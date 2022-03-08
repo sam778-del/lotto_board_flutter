@@ -12,7 +12,7 @@ class Logout {
   var response;
   var token;
 
-    Future<dynamic> logoutUser () async {
+  Future<dynamic> logoutUser () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Object? token = prefs.get("token");
     final response = await http.get(Uri.parse(strings.Logout += "?token=${token}"),

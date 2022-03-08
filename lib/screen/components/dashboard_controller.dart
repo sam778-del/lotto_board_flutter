@@ -32,7 +32,7 @@ class DashboardController extends GetxController{
     }finally{
       Future.delayed(Duration(seconds: 5), () {
         isLoading(false);
-        print('data fetch done');
+        print(imgList);
       });
     }
   }

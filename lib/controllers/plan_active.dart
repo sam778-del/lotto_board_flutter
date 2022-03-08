@@ -10,18 +10,17 @@ class PlanActiveService {
   static Future<dynamic> activePlanData() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      Object? token = prefs.get("token");
-      var response = await client.get(Uri.parse(strings.activePlan += "?token=${token}"),
+      var token = prefs.get("token");
+      var response = await client.get(Uri.parse(strings.activePlan),
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer $token"
         }
       );
-      print(json.decode(response.body));
       if(response.statusCode == 200){
         return json.decode(response.body);
-      }else{
-        await prefs.remove('token');
+      }else if (response.statusCode == 500){
+        await prefs.remove(token);
       }
       return null;
     } catch(e){

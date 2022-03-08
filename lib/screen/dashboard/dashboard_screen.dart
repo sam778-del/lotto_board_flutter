@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lotto_board/screen/components/check_user.dart';
+import 'package:lotto_board/screen/login_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:lotto_board/screen/components/navigation_drawer_widget.dart';
 import 'package:lotto_board/screen/components/dashboard_controller.dart';
@@ -13,6 +15,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key, required this.title}) : super(key: key);
@@ -23,22 +26,33 @@ class DashboardScreen extends StatefulWidget {
 
 class DashbaordScreen extends State<DashboardScreen> {
   final DashboardController dashBoardData = Get.put(DashboardController());
-  List imageList = [];
+  final UserDataController userDataController = Get.put(UserDataController());
 
   late Timer timer;
 
   @override
   void initState() {
     dashBoardData.fetchDashboardCarousel();
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => addValue());
+    userDataController.fetchDOData();
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => checkLoggedInUser());
   }
 
-  addValue() async{
-    setState(() {
-      imageList = [];
-      imageList = dashBoardData.CarouselData;
-    });
+  checkLoggedInUser() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.get("token");
+    if(token == null){
+      _completeLogin();
+    }
   }
+
+  _completeLogin() {
+    Navigator.pushAndRemoveUntil<void>(
+      context,
+      MaterialPageRoute<void>(builder: (BuildContext context) => const LoginScreen()),
+      ModalRoute.withName('/'),
+    );
+  }
+
 
   launchWhatsApp() async {
     final link = WhatsAppUnilink(
@@ -104,7 +118,7 @@ class DashbaordScreen extends State<DashboardScreen> {
                             Container(
                               margin: EdgeInsets.all(15),
                               child: CarouselSlider.builder(
-                                itemCount: imageList.length,
+                                itemCount: dashBoardData.CarouselData.length,
                                 options: CarouselOptions(
                                   enlargeCenterPage: true,
                                   height: 60.h,
@@ -125,14 +139,14 @@ class DashbaordScreen extends State<DashboardScreen> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(15),
                                         child: Image.network(
-                                          imageList[i],
+                                          dashBoardData.CarouselData[i],
                                         width: 800,
                                         fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                     onTap: (){
-                                      var url = imageList[i];
+                                      var url = dashBoardData.CarouselData[i];
                                       print(url.toString());
                                     },
                                   );
@@ -233,7 +247,7 @@ class DashbaordScreen extends State<DashboardScreen> {
 
   Future<Null> _refreshAds() async{
    dashBoardData.fetchDashboardCarousel();
-   addValue();
+   userDataController.fetchDOData();
   }
 
   void AboutUs() {

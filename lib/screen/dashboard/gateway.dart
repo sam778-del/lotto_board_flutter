@@ -6,6 +6,7 @@ import 'package:sizer/sizer.dart';
 import 'package:lotto_board/screen/components/check_user.dart';
 import 'package:lotto_board/pages/CheckoutMethodSelectable.dart';
 import 'package:lotto_board/screen/components/check_user.dart';
+import 'package:get/instance_manager.dart';
 
 class GatewayScreen extends StatefulWidget {
   const GatewayScreen({Key? key, required this.id, required this.duration, required this.price}) : super(key: key);
@@ -17,6 +18,7 @@ class GatewayScreen extends StatefulWidget {
 }
 
 class InitState extends State<GatewayScreen>{
+   final UserDataController userDataController = Get.put(UserDataController());
   @override
   void initState() {
     super.initState();
@@ -74,7 +76,7 @@ class InitState extends State<GatewayScreen>{
                               ),
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => CheckoutMethodSelectable(id: "${widget.id}", duration: "${widget.duration}", price: widget.price, user: "${UserDataController.UserEmail}", email: "${UserDataController.UserEmail}",),
+                                  builder: (context) => CheckoutMethodSelectable(id: "${widget.id}", duration: "${widget.duration}", price: widget.price, user: "${userDataController.UserEmail}", email: "${userDataController.UserEmail}",),
                                 ));
                               },
                             )

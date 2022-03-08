@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class PlanActiveController extends GetxController{
   var isLoading = true.obs;
   var PlanName = '';
-  var PlanExpiryDate = '';
+  var PlanExpiryDate = '1';
   
 
   @override
@@ -18,11 +18,11 @@ class PlanActiveController extends GetxController{
       isLoading(true);
       var _data = await PlanActiveService.activePlanData();
       if(_data != null){
-        PlanName = _data["plan_name"]["name"];
+        PlanName = _data["plan_name"];
         PlanExpiryDate = _data["plan_expiry_date"];
       }
     }finally{
-      Future.delayed(Duration(seconds: 0), () {
+      Future.delayed(Duration(seconds: 5), () {
         isLoading(false);
       });
       print(PlanExpiryDate);

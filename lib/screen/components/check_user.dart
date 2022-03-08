@@ -2,8 +2,8 @@ import 'package:lotto_board/controllers/check-user.dart';
 import 'package:get/get.dart';
 
 class UserDataController extends GetxController{
-  static var UserName = '';
-  static var UserEmail = '';
+  var UserName = '';
+  var UserEmail = '';
   static var UserPlan  = '';
   static var ProChat   = '';
   static var UserId = '';
@@ -14,7 +14,7 @@ class UserDataController extends GetxController{
     super.onInit();
   }
 
-  static Future<dynamic> fetchDOData() async {
+  Future<dynamic> fetchDOData() async {
     try{
       var _data = await checkUser.getUser();
       if(_data != null){

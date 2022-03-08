@@ -35,6 +35,12 @@ class InitState extends State<SubscriptionScreen> {
     super.initState();
   }
 
+  void addValue() {
+    setState(() {
+       planActive.fetchPricing();
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -115,7 +121,7 @@ class InitState extends State<SubscriptionScreen> {
                                         Center(
                                           child: ListTile(
                                             title: Text(
-                                              '${planActive.PlanName}', 
+                                              planActive.PlanName, 
                                               style: TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold),
                                             ),
                                             subtitle: Text('${planActive.PlanExpiryDate}', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold)),
@@ -140,11 +146,13 @@ class InitState extends State<SubscriptionScreen> {
         return Sizer(
           builder: (context, orientation, deviceType) {
             return SafeArea(
+              bottom: false,
               child: new Center(
                 child: new RefreshIndicator(
                   onRefresh: _refreshAds,
                   child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
+                    // clipBehavior: Clip.none,
                     padding: EdgeInsets.all(defaultPadding),
                       child: Center(
                         child: Container(
@@ -166,9 +174,12 @@ class InitState extends State<SubscriptionScreen> {
                               Container(
                                 alignment: Alignment.center,
                                 width: 100.h,
-                                child: Column(
-                                  children: getList(),
-                                ),
+                                child: new SingleChildScrollView(
+                                  padding: EdgeInsets.only(bottom: 15),
+                                  child: new Column(
+                                    children: getList(),
+                                  ),
+                                )
                               ),
                             ],
                           ),

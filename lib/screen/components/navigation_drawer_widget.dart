@@ -18,6 +18,8 @@ import 'package:lotto_board/screen/components/check_user.dart';
 import 'package:lotto_board/screen/components/classification_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../dashboard/profile_setting.dart';
+
 class NavigationDrawerWiget extends StatefulWidget {
   const NavigationDrawerWiget({Key? key}) : super(key: key);
   @override
@@ -27,13 +29,14 @@ class NavigationDrawerWiget extends StatefulWidget {
 
 class _MyHomePageState extends State<NavigationDrawerWiget> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
+  final UserDataController userDataController = Get.put(UserDataController());
   late Timer timer;
 
   @override
   void initState() {
-    UserDataController.fetchDOData();
+    userDataController.fetchDOData();
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 3), (Timer t) => UserDataController.fetchDOData());
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => userDataController.fetchDOData());
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) => checkLoggedInUser());
   }
 
@@ -44,12 +47,11 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
   }
 
   checkLoggedInUser() async{
+    userDataController.fetchDOData();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get("token");
     if(token == null){
       _completeLogin();
-    }else{
-      print("token still intact");
     }
   }
 
@@ -107,8 +109,8 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
 
   @override
   Widget build(BuildContext context) {
-    final name = UserDataController.UserName;
-    final email = UserDataController.UserEmail;
+    final name = userDataController.UserName;
+    final email = userDataController.UserEmail;
     final urlImage = 'https://img.favpng.com/8/19/8/united-states-avatar-organization-information-png-favpng-J9DvUE98TmbHSUqsmAgu3FpGw.jpg';
 
     return Drawer(
@@ -309,6 +311,11 @@ class _MyHomePageState extends State<NavigationDrawerWiget> {
       case 6:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => SubscriptionScreen(),
+        ));
+        break;
+      case 7:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProfileScreenPage(),
         ));
         break;
       case 8:

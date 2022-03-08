@@ -11,16 +11,17 @@ class checkUser{
   static Future<dynamic> getUser() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      Object? token = prefs.get("token");
-      var response = await client.get(Uri.parse(strings.UserById += "?token=${token}"),
+      var token = prefs.get("token");
+      var response = await client.get(Uri.parse(strings.UserById),
         headers: {
           "Accept": "application/json",
           "Authorization": "Bearer $token"
         },
       );
-      print(json.decode(response.body));
       if(response.statusCode == 200){
         return json.decode(response.body);
+      }else if (response.statusCode == 500){
+        await prefs.remove(token);
       }
       return null;
     } catch(e){
